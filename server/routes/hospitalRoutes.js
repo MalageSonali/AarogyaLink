@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { listHospitals, myHospital, createHospital, updateHospital, adminHospitals, setHospitalStatus, dashboard } from '../controllers/hospitalController.js';
+import { protect, allow } from '../middleware/auth.js';
+const r = Router();
+r.get('/', listHospitals);
+r.get('/mine', protect, allow('hospital'), myHospital);
+r.post('/', protect, allow('hospital'), createHospital);
+r.put('/mine', protect, allow('hospital'), updateHospital);
+r.get('/admin/all', protect, allow('admin'), adminHospitals);
+r.get('/admin/dashboard', protect, allow('admin'), dashboard);
+r.patch('/admin/:id/status', protect, allow('admin'), setHospitalStatus);
+export default r;
